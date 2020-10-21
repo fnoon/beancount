@@ -45,38 +45,79 @@ class TestOFXImporter(cmptest.TestCase):
     def test_find_max_date(self):
         contents = clean_xml("""
           <OFX>
+            <SIGNONMSGSRSV1>
+              <SONRS>
+                <STATUS>
+                  <CODE>0
+                  <SEVERITY>INFO
+                  <MESSAGE>Login successful
+                </STATUS>
+                <DTSERVER>20131217204544.559[-7:MST]
+                <LANGUAGE>ENG
+                <FI>
+                  <ORG>OFCT
+                  <FID>3011
+                </FI>
+                <ORIGIN.ID>FMPWeb
+                <START.TIME>20131217204544
+              </SONRS>
+            </SIGNONMSGSRSV1>
             <CREDITCARDMSGSRSV1>
               <CCSTMTTRNRS>
-                <TRNUID>
-                  0
-                  <STATUS>
-                    <CODE>
-                      0
-                      <SEVERITY>
-                        INFO
-                      </SEVERITY>
-                    </CODE>
-                  </STATUS>
-                  <CCSTMTRS>
-                    <CURDEF>
-                      USD
-                      <LEDGERBAL>
-                        <BALAMT>
-                          -2356.38
-                          <DTASOF>
-                            20140112050000.000[-7:MST]
-                          </DTASOF>
-                        </BALAMT>
-                      </LEDGERBAL>
-                    </CURDEF>
-                  </CCSTMTRS>
-                </TRNUID>
+                <TRNUID>0
+                <STATUS>
+                  <CODE>0
+                  <SEVERITY>INFO
+                </STATUS>
+                <CCSTMTRS>
+                  <CURDEF>USD
+                  <CCACCTFROM>
+                    <ACCTID>092243467384967
+                    <DOWNLOAD.FLAG>false
+                    <DOWNLOAD.TYPE>downloadSince
+                    <AMEX.BASICACCT>090341355486768
+                    <DAYS.SINCE>true
+                    <AMEX.ROLE>B
+                    <AMEX.UNIVID>iHJPMCPVMUZESUMTMIASKPSHBZOJZQMZ
+                  </CCACCTFROM>
+                  <BANKTRANLIST>
+                    <DTSTART>20131201050000.000[-7:MST]
+                    <DTEND>20131215050000.000[-7:MST]
+                    <STMTTRN>
+                      <TRNTYPE>DEBIT
+                      <DTPOSTED>20131206000000.000[-7:MST]
+                      <DTUSER>20131206000000.000[-7:MST]
+                      <TRNAMT>-75
+                      <FITID>132124581254980455
+                      <REFNUM>140941621247980353
+                      <NAME>Cvzndybfhlgsy Kbptkt010-743-2492
+                      <MEMO>87278814438304-062-9392
+                    </STMTTRN>
+                    <STMTTRN>
+                      <TRNTYPE>DEBIT
+                      <DTPOSTED>20131209000000.000[-7:MST]
+                      <DTUSER>20131208000000.000[-7:MST]
+                      <TRNAMT>-30.9
+                      <FITID>118335238578609388
+                      <REFNUM>542324610398801568
+                      <NAME>SBMUZYXG XRB 98038 03324302420
+                      <MEMO>853700608200014392232
+                    </STMTTRN>
+                  </BANKTRANLIST>
+                  <LEDGERBAL>
+                    <BALAMT>-3609.07<DTASOF>20131231050000.000[-7:MST]
+                  </LEDGERBAL>
+                  <CYCLECUT.INDICATOR>false
+                  <PURGE.INDICATOR>false
+                  <INTL.INDICATOR>false
+                </CCSTMTRS>
               </CCSTMTTRNRS>
             </CREDITCARDMSGSRSV1>
           </OFX>
         """)
+
         date = ofx.find_max_date(contents)
-        self.assertEqual(datetime.date(2014, 1, 12), date)
+        self.assertEqual(datetime.date(2013, 12, 15), date)
 
     def test_find_currency(self):
         contents = clean_xml("""

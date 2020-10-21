@@ -85,7 +85,7 @@ class Importer(importer.ImporterProtocol):
             return self.basename + path.splitext(file.name)[1]
 
     def file_date(self, file):
-        """Return the optional renamed account filename."""
+        """Return the statement closing date."""
         return find_max_date(file.contents())
 
     def extract(self, file, existing_entries=None):
@@ -173,9 +173,9 @@ def find_max_date(contents):
     """Extract the report date from the file."""
     soup = bs4.BeautifulSoup(contents, 'lxml')
     dates = []
-    for ledgerbal in soup.find_all('ledgerbal'):
-        dtasof = ledgerbal.find('dtasof')
-        dates.append(parse_ofx_time(dtasof.contents[0]).date())
+    for banktranlist in soup.find_all('banktranlist'):
+        dtend = banktranlist.find('dtend')
+        dates.append(parse_ofx_time(dtend.contents[0]).date())
     if dates:
         return max(dates)
 
