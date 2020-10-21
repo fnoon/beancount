@@ -1,0 +1,4 @@
+Representative QBO files can be copied into the masters/ directory
+for testing.  But be careful not to commit anything that isn't
+sanitized.  The bean.cfg will have to be changed accordingly: again,
+DO NOT CHECK IT IN!
